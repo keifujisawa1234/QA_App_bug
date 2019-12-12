@@ -1,6 +1,7 @@
 package net.ebisoba.qa_app
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
@@ -20,6 +21,7 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import android.util.Base64  //追加する
+import android.widget.Button
 import android.widget.ListView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -114,8 +116,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(mToolbar)
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener { view ->
+        val fab2 = findViewById<FloatingActionButton>(R.id.fab)
+        // 追加
+        val button_favorite2 = findViewById<Button>(R.id.button_favorite)
+
+        fab2.setOnClickListener { view ->
             // ジャンルを選択していない場合（mGenre == 0）はエラーを表示するだけ
             if (mGenre == 0) {
                 Snackbar.make(view, "ジャンルを選択して下さい", Snackbar.LENGTH_LONG).show()
@@ -135,6 +140,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.putExtra("genre", mGenre)
                 startActivity(intent)
             }
+        }
+
+        // 追加 ここでボタンがクリックされると赤に変わるようにしているがアプリが落ちる
+        // buttonの色を変える
+        button_favorite2.setOnClickListener{ view ->
+            button_favorite2.setBackgroundColor(Color.RED)
         }
 
         // ナビゲーションドロワーの設定
@@ -186,6 +197,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(applicationContext, SettingActivity::class.java)
             startActivity(intent)
             return true
+        } else if (id == R.id.favorite_setting){
+            val intent = Intent(applicationContext, FavoriteActivity::class.java)
+            startActivity(intent)
         }
 
         return super.onOptionsItemSelected(item)
