@@ -1,6 +1,7 @@
 package net.ebisoba.qa_app
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
@@ -94,6 +95,31 @@ class QuestionDetailActivity : AppCompatActivity() {
                 startActivity(intent)
                 // --- ここまで ---
             }
+        }
+
+        // 追加
+        // button_favoriteが押せるかどうかをログイン状況で判断する
+        val user = FirebaseAuth.getInstance().currentUser
+        if(user == null){
+            button_favorite.visibility = View.GONE
+        } else{
+            button_favorite.visibility = View.VISIBLE
+        }
+
+        // 追加
+        // ボタンをタップしたとき
+        button_favorite.setOnClickListener{
+            button_favorite.setBackgroundColor(Color.RED)
+            // 追加 Ref
+            val databaseReference_fav = FirebaseDatabase.getInstance().reference
+            val favRef = databaseReference_fav.child(FavoritePATH).child(mQuestion.uid).child(mQuestion.questionUid)
+
+            // 追加 DataをFirebaseに保存
+            val data = HashMap<String, String>()
+            data["fav"] = mQuestion.questionUid
+//            data["questionUid"] = mQuestion.questionUid
+            data["mQuestion.uid"] = mQuestion.uid//.toString() // ここでアプリが落ちる
+            favRef.setValue(data)
         }
 
         val dataBaseReference = FirebaseDatabase.getInstance().reference

@@ -117,8 +117,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(mToolbar)
 
         val fab2 = findViewById<FloatingActionButton>(R.id.fab)
-        // 追加
-        val button_favorite2 = findViewById<Button>(R.id.button_favorite)
 
         fab2.setOnClickListener { view ->
             // ジャンルを選択していない場合（mGenre == 0）はエラーを表示するだけ
@@ -140,12 +138,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.putExtra("genre", mGenre)
                 startActivity(intent)
             }
-        }
-
-        // 追加 ここでボタンがクリックされると赤に変わるようにしているがアプリが落ちる
-        // buttonの色を変える
-        button_favorite2.setOnClickListener{ view ->
-            button_favorite2.setBackgroundColor(Color.RED)
         }
 
         // ナビゲーションドロワーの設定
